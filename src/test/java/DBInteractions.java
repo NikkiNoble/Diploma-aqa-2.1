@@ -1,5 +1,4 @@
 import lombok.val;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,26 +6,14 @@ import java.sql.SQLException;
 public class DBInteractions {
 
     private static Connection connection;
-
-//    static {
-//        try {
-//            connection = DriverManager.getConnection(
-//                        "jdbc:mysql://192.168.99.100:3306/app", "app", "pass");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
     static {
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(
-                    "jdbc:postgresql://192.168.99.100:5432/app", "app", "pass");
+            connection = DriverManager.getConnection ("jdbc:postgresql://192.168.99.100:5432/app", "app", "pass");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-
-
     public static String getStatus() throws SQLException {
         val statusSQL = "SELECT status FROM payment_entity;";
         String status = "";

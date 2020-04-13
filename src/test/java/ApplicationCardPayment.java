@@ -1,6 +1,5 @@
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -30,7 +29,6 @@ public class ApplicationCardPayment {
     public void sendingElementShouldNotBeVisible() {
         $(withText("Отправляем запрос в Банк")).shouldNotBe(visible);
     }
-
     public void findInvalidEnter() {
         $(withText("Неверный формат")).shouldBe(visible);
     }
@@ -52,95 +50,77 @@ public class ApplicationCardPayment {
     public static void clickButtonContinue() {
         button.find(exactText("Продолжить")).click();
     }
-
-    public void validPayWithDebitCard1() {
-        ApplicationCardPayment.clickButton();
-        inputCardNumber.setValue(DataHelper.getCardNumber1());
+    public void fillInSeveralFields() {
         inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
         inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
         inputOwner.setValue(DataGenerator.generateName());
         inputCVC.setValue(DataGenerator.generateCVC());
         ApplicationCardPayment.clickButtonContinue();
+    }
+    public void fillInNameCVC() {
+        inputOwner.setValue(DataGenerator.generateName());
+        inputCVC.setValue(DataGenerator.generateCVC());
+        ApplicationCardPayment.clickButtonContinue();
+    }
+    public void fillInMonthYear() {
+        inputCardNumber.setValue(DataHelper.getCardNumber1());
+        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
+        inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
+    }
+    public void validPayWithDebitCard1() {
+        ApplicationCardPayment.clickButton();
+        inputCardNumber.setValue(DataHelper.getCardNumber1());
+        fillInSeveralFields();
     }
     public void inValidPayWithDebitCard2() {
         ApplicationCardPayment.clickButton();
         inputCardNumber.setValue(DataHelper.getCardNumber2());
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInSeveralFields();
         notification.waitUntil(visible, 15000);
-
     }
     public void validPayWithCreditCard1() {
         ApplicationCardPayment.clickButtonCredit();
         inputCardNumber.setValue(DataHelper.getCardNumber1());
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInSeveralFields();
     }
     public void invalidPayWithCreditCard2() {
         ApplicationCardPayment.clickButtonCredit();
         inputCardNumber.setValue(DataHelper.getCardNumber2());
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInSeveralFields();
         notification.waitUntil(visible, 15000);
-
     }
     public void sendFormWithEmptyFieldCardNumber() {
         ApplicationCardPayment.clickButton();
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInSeveralFields();
     }
     public void sendFormWithEmptyFieldMonth() {
         ApplicationCardPayment.clickButton();
         inputCardNumber.setValue(DataHelper.getCardNumber1());
         inputYear.setValue(DataGenerator.shouldReturnRandomYear());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInNameCVC();
     }
     public void sendFormWithEmptyFieldYear() {
         ApplicationCardPayment.clickButton();
         inputCardNumber.setValue(DataHelper.getCardNumber1());
         inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInNameCVC();
     }
     public void sendFormWithEmptyFieldOwner() {
         ApplicationCardPayment.clickButton();
-        inputCardNumber.setValue(DataHelper.getCardNumber1());
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYear());
+        fillInMonthYear();
         inputCVC.setValue(DataGenerator.generateCVC());
         ApplicationCardPayment.clickButtonContinue();
     }
     public void sendFormWithEmptyFieldCVC() {
         ApplicationCardPayment.clickButton();
-        inputCardNumber.setValue(DataHelper.getCardNumber1());
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYear());
+        fillInMonthYear();
         inputOwner.setValue(DataGenerator.generateName());
         ApplicationCardPayment.clickButtonContinue();
     }
     public void sendFormWithNotFullCardNumber() {
         ApplicationCardPayment.clickButton();
         inputCardNumber.setValue(DataHelper.getWrongNumber1());
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInSeveralFields();
     }
     public void sendFormWithWrongCardNumber() {
         inputCardNumber.doubleClick().doubleClick().sendKeys(BACK_SPACE);
@@ -156,73 +136,56 @@ public class ApplicationCardPayment {
         inputCardNumber.setValue(DataHelper.getCardNumber1());
         inputMonth.setValue(DataGenerator.shouldReturnRandomNumber());
         inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInNameCVC();
     }
     public void sendFormWithPreviousMonth() {
         ApplicationCardPayment.clickButtonCredit();
         inputCardNumber.setValue(DataHelper.getCardNumber1());
         inputMonth.setValue(DataGenerator.shouldReturnPreviousMonth());
         inputYear.setValue(DataGenerator.shouldReturnCurrentYear());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInNameCVC();
     }
     public void sendFormWithWrongFormatMonth() {
         ApplicationCardPayment.clickButtonCredit();
         inputCardNumber.setValue(DataHelper.getCardNumber1());
         inputMonth.setValue(DataGenerator.shouldReturnRandomNumeral());
         inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInNameCVC();
     }
     public void sendFormWithWrongFormatYear() {
         ApplicationCardPayment.clickButtonCredit();
         inputCardNumber.setValue(DataHelper.getCardNumber1());
         inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
         inputYear.setValue(DataGenerator.shouldReturnRandomNumeral());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInNameCVC();
     }
     public void sendFormWithNullMonth() {
         ApplicationCardPayment.clickButton();
         inputCardNumber.setValue(DataHelper.getCardNumber1());
         inputMonth.setValue("00");
         inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInNameCVC();
     }
     public void sendFormWithPreviousYear() {
         ApplicationCardPayment.clickButton();
         inputCardNumber.setValue(DataHelper.getCardNumber1());
         inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
         inputYear.setValue(DataGenerator.shouldReturnRandomYearMinus());
-        inputOwner.setValue(DataGenerator.generateName());
-        inputCVC.setValue(DataGenerator.generateCVC());
-        ApplicationCardPayment.clickButtonContinue();
+        fillInNameCVC();
     }
     public void sendFormWithWrongCVC() {
         ApplicationCardPayment.clickButton();
-        inputCardNumber.setValue(DataHelper.getCardNumber1());
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
+        fillInMonthYear();
         inputOwner.setValue(DataGenerator.generateName());
         inputCVC.setValue(DataGenerator.shouldReturnRandomNumber());
         ApplicationCardPayment.clickButtonContinue();
+
     }
     public void sendFormWithRandomSymbolsInsteadOfName() {
         ApplicationCardPayment.clickButton();
-        inputCardNumber.setValue(DataHelper.getCardNumber1());
-        inputMonth.setValue(DataGenerator.shouldReturnRandomMonth());
-        inputYear.setValue(DataGenerator.shouldReturnRandomYearPlus());
+        fillInMonthYear();
         inputOwner.setValue("&?|#6%");
         inputCVC.setValue(DataGenerator.generateCVC());
         ApplicationCardPayment.clickButtonContinue();
     }
-
-
 }

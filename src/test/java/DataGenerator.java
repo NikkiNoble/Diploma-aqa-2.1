@@ -1,24 +1,27 @@
 import com.github.javafaker.Faker;
-
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class DataGenerator {
     public static String generateName() {
         Faker faker = new Faker();
         return faker.name().fullName();
-
     }
     public static String generateCVC() {
         Faker faker = new Faker();
         return faker.number().digits(3);
     }
     public static String shouldReturnRandomMonth() {
-        List<String> givenList = Arrays.asList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+        List<Integer> givenList = new ArrayList<>();
+        for (int i = 0; i < 13; i++) {
+            givenList.add((i));
+        }
         Random random = new Random();
-        return givenList.get(random.nextInt(givenList.size()));
+        int number = givenList.get(random.nextInt(givenList.size()));
+        if (number < 10) {
+            return ("0" + number);
+        } else
+            return(String.valueOf(number));
     }
     public static String shouldReturnRandomYear() {
         List<String> givenList = Arrays.asList("21", "22", "23", "24");
@@ -52,9 +55,13 @@ public class DataGenerator {
         return String.valueOf(year % 100);
     }
     public static String shouldReturnRandomNumeral() {
-        List<String> givenList = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9");
+        List<Integer> givenList = new ArrayList<>();
         Random random = new Random();
-        return givenList.get(random.nextInt(givenList.size()));
+        for (int i = 0; i < 10; i++) {
+            givenList.add((i));
+        }
+        int number = givenList.get(random.nextInt(givenList.size()));
+        return String.valueOf(number);
     }
     public static String shouldReturnRandomYearMinus() {
         List<Integer> givenList = Arrays.asList(1, 2, 3, 4, 5);
@@ -64,5 +71,4 @@ public class DataGenerator {
         int newYear = year - number;
         return String.valueOf(newYear % 100);
     }
-
 }

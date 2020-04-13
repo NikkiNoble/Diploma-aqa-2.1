@@ -1,5 +1,4 @@
 import lombok.Value;
-
 import static com.codeborne.selenide.Selenide.open;
 
 public class DataHelper {
@@ -27,6 +26,4 @@ public class DataHelper {
     public static String getWrongNumber2() {
         return new CardInfo().wrongNumber2;
     }
-
-
 }
